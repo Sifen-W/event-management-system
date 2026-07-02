@@ -1,0 +1,128 @@
+.detail-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+.back-link:hover { color: var(--navy); }
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.detail-header h1 {
+  font-size: 1.7rem;
+  margin: 0.5rem 0 0.4rem;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  padding: 0.65rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.btn-danger:hover { background: #FCEBE9; }
+
+.event-description {
+  color: var(--charcoal);
+  margin: 1.25rem 0;
+  line-height: 1.6;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.detail-grid h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.9rem;
+}
+
+.spots-indicator {
+  font-weight: 600;
+  color: var(--amber-dark);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.spots-indicator.full { color: var(--danger); }
+
+.rsvp-success {
+  background: #E8F3EA;
+  color: #2A7A3B;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rsvp-form input {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  background: var(--cream);
+}
+.rsvp-form input:focus {
+  outline: 2px solid var(--amber);
+  outline-offset: 1px;
+  background: white;
+}
+
+.attendees-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.attendees-list li {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.88rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.attendee-name { font-weight: 600; color: var(--navy); }
+.attendee-email { color: var(--gray); }
+
+@media (max-width: 640px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
