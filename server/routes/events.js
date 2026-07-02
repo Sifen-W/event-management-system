@@ -1,3 +1,4 @@
+const requireAuth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
@@ -23,7 +24,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Create a new event
-router.post('/', (req, res) => {
+router.post('/', requireAuth, (req, res) => {
   const { title, description, date, time, location, category, capacity } = req.body;
   if (!title || !date || !time || !location || !capacity) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -37,7 +38,7 @@ router.post('/', (req, res) => {
 });
 
 // Update an event
-router.put('/:id', (req, res) => {
+router.put('/:id', requireAuth, (req, res) => {
   const { title, description, date, time, location, category, capacity } = req.body;
   db.prepare(`
     UPDATE events SET title=?, description=?, date=?, time=?, location=?, category=?, capacity=?
@@ -48,7 +49,7 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete an event
-router.delete('/:id', (req, res) => {
+router.delete('/:id', requireAuth, (req, res) => {
   db.prepare('DELETE FROM events WHERE id = ?').run(req.params.id);
   res.json({ success: true });
 });
