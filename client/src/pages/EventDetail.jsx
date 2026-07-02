@@ -13,14 +13,21 @@ function EventDetail() {
   const [rsvpSuccess, setRsvpSuccess] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
-  function loadEvent() {
-    fetch(`http://localhost:3001/api/events/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        setEvent(data)
+function loadEvent() {
+  fetch(`http://localhost:3001/api/events/${id}`)
+    .then(res => {
+      if (!res.ok) {
+        setEvent(null)
         setLoading(false)
-      })
-  }
+        return null
+      }
+      return res.json()
+    })
+    .then(data => {
+      if (data) setEvent(data)
+      setLoading(false)
+    })
+}
 
   useEffect(() => {
     loadEvent()
