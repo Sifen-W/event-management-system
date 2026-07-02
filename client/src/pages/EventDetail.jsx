@@ -40,36 +40,42 @@ function loadEvent() {
   }
 
   async function handleRsvp(e) {
-    e.preventDefault()
-    setRsvpError('')
+      e.preventDefault()
+      setRsvpError('')
 
-    if (!rsvpForm.name || !rsvpForm.email) {
-      setRsvpError('Please enter your name and email.')
-      return
-    }
-
-    setSubmitting(true)
-    try {
-      const res = await fetch(`http://localhost:3001/api/events/${id}/rsvp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(rsvpForm)
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        setRsvpError(data.error || 'Something went wrong.')
-        setSubmitting(false)
+      if (!rsvpForm.name || !rsvpForm.email) {
+        setRsvpError('Please enter your name and email.')
         return
       }
-      setRsvpForm({ name: '', email: '' })
-      setRsvpSuccess(true)
-      setSubmitting(false)
-      loadEvent()
-    } catch (err) {
-      setRsvpError('Something went wrong. Please try again.')
-      setSubmitting(false)
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailPattern.test(rsvpForm.email)) {
+        setRsvpError('Please enter a valid email address.')
+        return
+      }
+
+      setSubmitting(true)
+      try {
+        const res = await fetch(`http://localhost:3001/api/events/${id}/rsvp`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(rsvpForm)
+        })
+        const data = await res.json()
+        if (!res.ok) {
+          setRsvpError(data.error || 'Something went wrong.')
+          setSubmitting(false)
+          return
+        }
+        setRsvpForm({ name: '', email: '' })
+        setRsvpSuccess(true)
+        setSubmitting(false)
+        loadEvent()
+      } catch (err) {
+        setRsvpError('Something went wrong. Please try again.')
+        setSubmitting(false)
+      }
     }
-  }
 
   if (loading) return <p className="status-text">Loading event...</p>
   if (!event) return <p className="status-text">Event not found.</p>

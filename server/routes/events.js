@@ -61,6 +61,11 @@ router.post('/:id/rsvp', (req, res) => {
   const event = db.prepare('SELECT * FROM events WHERE id = ?').get(req.params.id);
   if (!event) return res.status(404).json({ error: 'Event not found' });
 
+  const existing = db.prepare('SELECT * FROM attendees WHERE event_id = ? AND email = ?').get(req.params.id, email);
+  if (existing) {
+    return res.status(400).json({ error: 'This email has already RSVP\'d to this event' });
+  }
+
   const count = db.prepare('SELECT COUNT(*) AS c FROM attendees WHERE event_id = ?').get(req.params.id).c;
   if (count >= event.capacity) {
     return res.status(400).json({ error: 'Event is full' });
