@@ -76,3 +76,14 @@
 .event-spots.full {
   color: var(--danger);
 }
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.list-header .page-title {
+  margin-bottom: 0;
+}

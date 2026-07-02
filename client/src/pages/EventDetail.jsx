@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import './EventDetail.css'
 
-function EventDetail() {
+function EventDetail({ isOrganizer }) {
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -79,7 +79,7 @@ function loadEvent() {
 
   return (
     <div className="detail-page">
-      <Link to="/" className="back-link">← Back to events</Link>
+      <Link to={isOrganizer ? '/organizer' : '/'} className="back-link">← Back to events</Link>
 
       <div className="detail-header">
         <div>
@@ -88,10 +88,12 @@ function loadEvent() {
           <p className="event-meta">{event.date} · {event.time}</p>
           <p className="event-meta">{event.location}</p>
         </div>
-        <div className="detail-actions">
-          <Link to={`/events/${id}/edit`} className="btn-secondary">Edit</Link>
-          <button className="btn-danger" onClick={handleDelete}>Delete</button>
-        </div>
+        {isOrganizer && (
+          <div className="detail-actions">
+            <Link to={`/events/${id}/edit`} className="btn-secondary">Edit</Link>
+            <button className="btn-danger" onClick={handleDelete}>Delete</button>
+          </div>
+        )}
       </div>
 
       {event.description && <p className="event-description">{event.description}</p>}
