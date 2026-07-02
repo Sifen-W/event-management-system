@@ -6,6 +6,8 @@ function EventsList({ isOrganizer }) {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
 
+const [error, setError] = useState(false)
+
   useEffect(() => {
     fetch('http://localhost:3001/api/events')
       .then(res => res.json())
@@ -13,11 +15,15 @@ function EventsList({ isOrganizer }) {
         setEvents(data)
         setLoading(false)
       })
+      .catch(() => {
+        setError(true)
+        setLoading(false)
+      })
   }, [])
 
-  if (loading) return <p className="status-text">Loading events...</p>
-
-  if (events.length === 0) {
+    if (loading) return <p className="status-text">Loading events...</p>
+    if (error) return <p className="status-text error-text">Couldn't connect to the server. Make sure the backend is running.</p>
+    if (events.length === 0) {
     return (
       <div className="empty-state">
         <h2>No events yet</h2>

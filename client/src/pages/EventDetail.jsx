@@ -13,21 +13,27 @@ function EventDetail({ isOrganizer }) {
   const [rsvpSuccess, setRsvpSuccess] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
-function loadEvent() {
-  fetch(`http://localhost:3001/api/events/${id}`)
-    .then(res => {
-      if (!res.ok) {
-        setEvent(null)
+  const [connectionError, setConnectionError] = useState(false)
+
+  function loadEvent() {
+    fetch(`http://localhost:3001/api/events/${id}`)
+      .then(res => {
+        if (!res.ok) {
+          setEvent(null)
+          setLoading(false)
+          return null
+        }
+        return res.json()
+      })
+      .then(data => {
+        if (data) setEvent(data)
         setLoading(false)
-        return null
-      }
-      return res.json()
-    })
-    .then(data => {
-      if (data) setEvent(data)
-      setLoading(false)
-    })
-}
+      })
+      .catch(() => {
+        setConnectionError(true)
+        setLoading(false)
+      })
+  }
 
   useEffect(() => {
     loadEvent()
@@ -78,6 +84,7 @@ function loadEvent() {
     }
 
   if (loading) return <p className="status-text">Loading event...</p>
+  if (connectionError) return <p className="status-text error-text">Couldn't connect to the server. Make sure the backend is running.</p>
   if (!event) return <p className="status-text">Event not found.</p>
 
   const spotsLeft = event.capacity - event.attendees.length

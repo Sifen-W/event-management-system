@@ -87,3 +87,6 @@
 .list-header .page-title {
   margin-bottom: 0;
 }
+.error-text {
+  color: var(--danger);
+}
