@@ -7,8 +7,10 @@ A full-stack web application for creating, managing, and RSVPing to events. Buil
 - **Organizer Authentication** — a password-protected login gates access to event management (JWT-based)
 - **Organizer Dashboard** — create, edit, and delete events (requires login)
 - **Public Event Browsing** — anyone can view upcoming events with live spot availability, no login required
+- **Search & Category Filter** — find events by title or filter by category
 - **RSVP System** — attendees reserve a spot with name and email; capacity is enforced server-side so events can't be overbooked, and duplicate RSVPs (same email, same event) are blocked
 - **Attendee Tracking** — organizers can see who has RSVP'd to each event
+- **Light / Dark Mode** — theme preference is remembered across visits
 - **Responsive UI** — works across desktop and mobile screen sizes
 - **Graceful error handling** — missing events and backend connection issues show clear messages instead of crashing
 
@@ -41,7 +43,7 @@ event-management-system/
     │   │   ├── EventDetail.jsx   # Event details, RSVP, attendees
     │   │   ├── EventForm.jsx     # Create / edit event form (organizer only)
     │   │   └── Login.jsx         # Organizer login
-    │   ├── App.jsx                # Routing, auth state, route protection
+    │   ├── App.jsx                # Routing, auth state, theme, route protection
     │   └── main.jsx
     └── package.json
 ```
@@ -66,11 +68,15 @@ JWT_SECRET=your-own-long-random-string
 ORGANIZER_PASSWORD_HASH=
 ```
 
-Generate a password hash for your chosen organizer password:
+Generate a password hash for the organizer login. For a quick review, you can use the demo password `demo1234`:
 ```bash
-node -e "require('bcrypt').hash(process.argv[1], 10).then(console.log)" "YourChosenPassword"
+node -e "require('bcrypt').hash(process.argv[1], 10).then(console.log)" "demo1234"
 ```
 Copy the printed hash into `ORGANIZER_PASSWORD_HASH` in `.env`.
+
+Then log in at `/login` using the password `demo1234` to access the Organizer Dashboard.
+
+(To use your own password instead of the demo one, just replace `demo1234` in the command above with your chosen password.)
 
 (Optional) Seed some sample events:
 ```bash
@@ -91,7 +97,14 @@ npm run dev
 ```
 Runs on `http://localhost:5173`
 
-Both servers need to be running simultaneously for the app to work. Log in at `/login` using the password you chose above to access the Organizer Dashboard.
+Both servers need to be running simultaneously for the app to work.
+
+## Demo Access
+
+For quick review without generating your own hash, use:
+- **Organizer password:** `demo1234`
+
+(This is a demo-only credential documented for reviewer convenience — not intended to guard anything sensitive.)
 
 ## API Endpoints
 
