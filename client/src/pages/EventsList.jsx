@@ -6,6 +6,7 @@ function EventsList({ isOrganizer }) {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [category, setCategory] = useState('All')
 
 const [error, setError] = useState(false)
 
@@ -41,6 +42,7 @@ const [error, setError] = useState(false)
           {isOrganizer && <Link to="/events/new" className="btn-create">+ Create Event</Link>}
         </div>
 
+<div className="filter-row">
         <input
           type="text"
           className="search-bar"
@@ -48,11 +50,23 @@ const [error, setError] = useState(false)
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
+        <select
+          className="category-select"
+          value={category}
+          onChange={e => setCategory(e.target.value)}
+        >
+          <option value="All">All categories</option>
+          {[...new Set(events.map(e => e.category).filter(Boolean))].map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+      </div>
 
         <div className="events-grid">
-          {events
-            .filter(event => event.title.toLowerCase().includes(search.toLowerCase()))
-            .map(event => {
+        {events
+          .filter(event => event.title.toLowerCase().includes(search.toLowerCase()))
+          .filter(event => category === 'All' || event.category === category)
+          .map(event => {
               const spotsLeft = event.capacity - event.attendee_count
               const isFull = spotsLeft <= 0
               const linkTo = isOrganizer ? `/organizer/events/${event.id}` : `/events/${event.id}`
@@ -70,9 +84,12 @@ const [error, setError] = useState(false)
             })}
         </div>
 
-        {events.filter(event => event.title.toLowerCase().includes(search.toLowerCase())).length === 0 && (
-          <p className="status-text">No events match your search.</p>
-        )}
+        {events
+                .filter(event => event.title.toLowerCase().includes(search.toLowerCase()))
+                .filter(event => category === 'All' || event.category === category)
+                .length === 0 && (
+                <p className="status-text">No events match your search.</p>
+              )}
       </div>
     )
   }
