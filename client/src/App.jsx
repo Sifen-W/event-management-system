@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, Link, Navigate } from 'react-router-dom'
 import EventsList from './pages/EventsList'
 import EventDetail from './pages/EventDetail'
@@ -8,6 +8,16 @@ import './App.css'
 
 function App() {
   const [token, setToken] = useState(sessionStorage.getItem('token') || null)
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  function toggleTheme() {
+    setTheme(t => t === 'light' ? 'dark' : 'light')
+  }
 
   function handleLogin(newToken) {
     setToken(newToken)
@@ -24,6 +34,9 @@ function App() {
       <header className="navbar">
         <Link to="/" className="logo">Event Manager</Link>
         <nav className="nav-links">
+          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle dark mode">
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
           <Link to="/">Browse Events</Link>
           {token ? (
             <>

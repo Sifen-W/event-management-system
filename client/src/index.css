@@ -8,9 +8,26 @@
   --gray: #6B7280;
   --border: #E5E2DA;
   --danger: #C4483A;
+  --card-bg: #FFFFFF;
+  --navbar-bg: #1E2A4A;
+  --navbar-text: #FAF9F6;
 
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'Inter', sans-serif;
+}
+[data-theme="dark"] {
+  --navy: #E8EAF0;
+  --navy-light: #C9CEDC;
+  --amber: #E8A33D;
+  --amber-dark: #F0B25A;
+  --cream: #1A1F2E;
+  --charcoal: #E8E6E1;
+  --gray: #9CA3AF;
+  --border: #33394A;
+  --danger: #E8776A;
+  --card-bg: #242B3D;
+  --navbar-bg: #10141F;
+  --navbar-text: #FAF9F6;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,6 +37,8 @@ body {
   background: var(--cream);
   color: var(--charcoal);
   line-height: 1.5;
+  transition: background 0.2s ease, color 0.2s ease;
+
 }
 
 h1, h2, h3 { font-family: var(--font-display); font-weight: 600; color: var(--navy); }
