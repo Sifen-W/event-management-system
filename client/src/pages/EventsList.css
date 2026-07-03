@@ -90,3 +90,17 @@
 .error-text {
   color: var(--danger);
 }
+.search-bar {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  margin-bottom: 1.5rem;
+  background: white;
+}
+.search-bar:focus {
+  outline: 2px solid var(--amber);
+  outline-offset: 1px;
+}

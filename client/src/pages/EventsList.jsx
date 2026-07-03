@@ -5,6 +5,7 @@ import './EventsList.css'
 function EventsList({ isOrganizer }) {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
 
 const [error, setError] = useState(false)
 
@@ -34,31 +35,46 @@ const [error, setError] = useState(false)
   }
 
   return (
-    <div>
-      <div className="list-header">
-        <h1 className="page-title">{isOrganizer ? 'Manage Events' : 'Upcoming Events'}</h1>
-        {isOrganizer && <Link to="/events/new" className="btn-create">+ Create Event</Link>}
-      </div>
-      <div className="events-grid">
-        {events.map(event => {
-          const spotsLeft = event.capacity - event.attendee_count
-          const isFull = spotsLeft <= 0
-          const linkTo = isOrganizer ? `/organizer/events/${event.id}` : `/events/${event.id}`
-          return (
-            <Link to={linkTo} key={event.id} className="event-card">
-              {event.category && <span className="event-category">{event.category}</span>}
-              <h3>{event.title}</h3>
-              <p className="event-meta">{event.date} · {event.time}</p>
-              <p className="event-meta">{event.location}</p>
-              <p className={`event-spots ${isFull ? 'full' : ''}`}>
-                {isFull ? 'Event Full' : `${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left`}
-              </p>
-            </Link>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
+      <div>
+        <div className="list-header">
+          <h1 className="page-title">{isOrganizer ? 'Manage Events' : 'Upcoming Events'}</h1>
+          {isOrganizer && <Link to="/events/new" className="btn-create">+ Create Event</Link>}
+        </div>
 
-export default EventsList
+        <input
+          type="text"
+          className="search-bar"
+          placeholder="Search events by title..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+        />
+
+        <div className="events-grid">
+          {events
+            .filter(event => event.title.toLowerCase().includes(search.toLowerCase()))
+            .map(event => {
+              const spotsLeft = event.capacity - event.attendee_count
+              const isFull = spotsLeft <= 0
+              const linkTo = isOrganizer ? `/organizer/events/${event.id}` : `/events/${event.id}`
+              return (
+                <Link to={linkTo} key={event.id} className="event-card">
+                  {event.category && <span className="event-category">{event.category}</span>}
+                  <h3>{event.title}</h3>
+                  <p className="event-meta">{event.date} · {event.time}</p>
+                  <p className="event-meta">{event.location}</p>
+                  <p className={`event-spots ${isFull ? 'full' : ''}`}>
+                    {isFull ? 'Event Full' : `${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left`}
+                  </p>
+                </Link>
+              )
+            })}
+        </div>
+
+        {events.filter(event => event.title.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+          <p className="status-text">No events match your search.</p>
+        )}
+      </div>
+    )
+  }
+
+  export default EventsList
