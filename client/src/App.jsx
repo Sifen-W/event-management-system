@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route, Link, Navigate } from 'react-router-dom'
+import { Routes, Route, Link, Navigate,  useLocation } from 'react-router-dom'
+
 import EventsList from './pages/EventsList'
 import EventDetail from './pages/EventDetail'
 import EventForm from './pages/EventForm'
@@ -9,6 +10,17 @@ import './App.css'
 function App() {
   const [token, setToken] = useState(sessionStorage.getItem('token') || null)
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+  const location = useLocation()
+
+  useEffect(() => {
+    const titles = {
+      '/': 'Browse Events — Event Manager',
+      '/login': 'Organizer Login — Event Manager',
+      '/organizer': 'Manage Events — Event Manager',
+      '/events/new': 'Create Event — Event Manager',
+    }
+    document.title = titles[location.pathname] || 'Event Manager'
+  }, [location])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)

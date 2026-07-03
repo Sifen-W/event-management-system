@@ -45,3 +45,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; color: var(--na
 a { text-decoration: none; color: inherit; }
 button { font-family: var(--font-body); cursor: pointer; }
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+button, .btn-create, .btn-primary, .btn-secondary, .btn-danger {
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+button:active, .btn-create:active, .btn-primary:active {
+  transform: scale(0.97);
+}
