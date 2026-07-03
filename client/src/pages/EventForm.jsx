@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import './EventForm.css'
 
-function EventForm() {
+function EventForm({ token }) {
   const { id } = useParams()
   const isEditing = Boolean(id)
   const navigate = useNavigate()
@@ -60,7 +60,10 @@ function EventForm() {
     try {
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ ...form, capacity: Number(form.capacity) })
       })
       if (!res.ok) throw new Error('Failed to save event')

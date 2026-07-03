@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import './EventDetail.css'
 
-function EventDetail({ isOrganizer }) {
+function EventDetail({ isOrganizer, token }) {
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -40,10 +40,13 @@ function EventDetail({ isOrganizer }) {
   }, [id])
 
   async function handleDelete() {
-    if (!confirm('Delete this event? This cannot be undone.')) return
-    await fetch(`http://localhost:3001/api/events/${id}`, { method: 'DELETE' })
-    navigate('/')
-  }
+      if (!confirm('Delete this event? This cannot be undone.')) return
+      await fetch(`http://localhost:3001/api/events/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      navigate(isOrganizer ? '/organizer' : '/')
+    }
 
   async function handleRsvp(e) {
       e.preventDefault()
